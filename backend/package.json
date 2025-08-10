@@ -1,0 +1,33 @@
+{
+    "name": "exotic-backend",
+    "version": "1.0.0",
+    "description": "Backend for Exotic 3D Printing E-commerce Platform",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "ecommerce",
+        "3d-printing",
+        "marketplace"
+    ],
+    "author": "Exotic",
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^3.0.2",
+        "cloudinary": "^2.5.1",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.0",
+        "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.16.4",
+        "multer": "^1.4.5-lts.1",
+        "nodemailer": "^6.10.1",
+        "nodemon": "^3.1.10",
+        "socket.io": "^4.8.1",
+        "stripe": "^17.3.1"
+    }
+}
