@@ -8,7 +8,8 @@ const Profile = () => {
     const { showSuccess, showError } = useToast();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         email: ''
     });
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,8 @@ const Profile = () => {
     useEffect(() => {
         if (user) {
             setFormData({
-                name: user.name || '',
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
                 email: user.email || ''
             });
         }
@@ -31,8 +33,8 @@ const Profile = () => {
     };
 
     const handleSave = async () => {
-        if (!formData.name.trim()) {
-            showError('Name is required');
+        if (!formData.firstName.trim() || !formData.lastName.trim()) {
+            showError('First name and last name are required');
             return;
         }
 
@@ -53,7 +55,8 @@ const Profile = () => {
 
     const handleCancel = () => {
         setFormData({
-            name: user?.name || '',
+            firstName: user?.firstName || '',
+            lastName: user?.lastName || '',
             email: user?.email || ''
         });
         setIsEditing(false);
@@ -229,7 +232,7 @@ const Profile = () => {
                     </div>
 
                     <div style={{ display: 'grid', gap: '20px' }}>
-                        {/* Name Field */}
+                        {/* First Name Field */}
                         <div>
                             <label style={{
                                 display: 'block',
@@ -237,13 +240,13 @@ const Profile = () => {
                                 fontWeight: '500',
                                 color: '#374151'
                             }}>
-                                Full Name
+                                First Name
                             </label>
                             {isEditing ? (
                                 <input
                                     type="text"
-                                    name="name"
-                                    value={formData.name}
+                                    name="firstName"
+                                    value={formData.firstName}
                                     onChange={handleInputChange}
                                     style={{
                                         width: '100%',
@@ -253,7 +256,7 @@ const Profile = () => {
                                         fontSize: '16px',
                                         boxSizing: 'border-box'
                                     }}
-                                    placeholder="Enter your full name"
+                                    placeholder="Enter your first name"
                                 />
                             ) : (
                                 <div style={{
@@ -264,7 +267,47 @@ const Profile = () => {
                                     fontSize: '16px',
                                     color: '#374151'
                                 }}>
-                                    {user?.name || 'Not provided'}
+                                    {user?.firstName || 'Not provided'}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Last Name Field */}
+                        <div>
+                            <label style={{
+                                display: 'block',
+                                marginBottom: '8px',
+                                fontWeight: '500',
+                                color: '#374151'
+                            }}>
+                                Last Name
+                            </label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '1px solid #d1d5db',
+                                        borderRadius: '6px',
+                                        fontSize: '16px',
+                                        boxSizing: 'border-box'
+                                    }}
+                                    placeholder="Enter your last name"
+                                />
+                            ) : (
+                                <div style={{
+                                    padding: '12px',
+                                    backgroundColor: '#f9fafb',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '6px',
+                                    fontSize: '16px',
+                                    color: '#374151'
+                                }}>
+                                    {user?.lastName || 'Not provided'}
                                 </div>
                             )}
                         </div>
