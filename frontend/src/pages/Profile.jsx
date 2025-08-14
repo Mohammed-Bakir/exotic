@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { FiUser, FiMail, FiCalendar, FiEdit2, FiSave, FiX, FiShield } from 'react-icons/fi';
+import { useWishlist } from '../context/WishlistContext';
 
 const Profile = () => {
     const { user, updateProfile, isAuthenticated } = useAuth();
@@ -13,6 +14,7 @@ const Profile = () => {
         email: ''
     });
     const [loading, setLoading] = useState(false);
+    const { wishlistItems } = useWishlist()
 
     useEffect(() => {
         if (user) {
@@ -403,7 +405,7 @@ const Profile = () => {
                         textAlign: 'center'
                     }}>
                         <h3 style={{ margin: '0 0 8px 0', color: '#10b981', fontSize: '24px' }}>
-                            0
+                            {wishlistItems.length}
                         </h3>
                         <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                             Wishlist Items
