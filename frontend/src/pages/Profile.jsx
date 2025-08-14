@@ -382,20 +382,7 @@ const Profile = () => {
                     gap: '16px',
                     marginTop: '24px'
                 }}>
-                    <div style={{
-                        backgroundColor: 'white',
-                        padding: '20px',
-                        borderRadius: '12px',
-                        border: '1px solid #e2e8f0',
-                        textAlign: 'center'
-                    }}>
-                        <h3 style={{ margin: '0 0 8px 0', color: '#3b82f6', fontSize: '24px' }}>
-                            0
-                        </h3>
-                        <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-                            Total Orders
-                        </p>
-                    </div>
+
 
                     <div style={{
                         backgroundColor: 'white',
