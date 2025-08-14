@@ -9,6 +9,7 @@ import { useToast } from '../context/ToastContext';
 import EmailTest from '../components/EmailTest';
 import SimpleAnalytics from '../components/SimpleAnalytics';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 // Add CSS animations
 const styles = `
@@ -93,7 +94,7 @@ const Admin = () => {
     const fetchDashboardData = async () => {
         try {
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get('http://localhost:5002/api/admin/dashboard', {
+            const response = await axios.get(`${API_BASE_URL}/api/admin/dashboard`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -114,7 +115,7 @@ const Admin = () => {
     const fetchOrders = async () => {
         try {
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get('http://localhost:5002/api/admin/orders', {
+            const response = await axios.get(`${API_BASE_URL}/api/admin/orders`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -131,7 +132,7 @@ const Admin = () => {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get('http://localhost:5002/api/admin/users', {
+            const response = await axios.get(`${API_BASE_URL}/api/admin/users`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -151,7 +152,7 @@ const Admin = () => {
 
             const token = localStorage.getItem('exotic-token');
             const response = await axios.put(
-                `http://localhost:5002/api/orders/${orderId}/status`,
+                `${API_BASE_URL}/api/orders/${orderId}/status`,
                 { status: newStatus },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
@@ -179,7 +180,7 @@ const Admin = () => {
         try {
             const token = localStorage.getItem('exotic-token');
             const response = await axios.put(
-                `http://localhost:5002/api/admin/users/${userId}/role`,
+                `${API_BASE_URL}/api/admin/users/${userId}/role`,
                 { role: newRole },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
@@ -201,7 +202,7 @@ const Admin = () => {
         try {
             const token = localStorage.getItem('exotic-token');
             const response = await axios.put(
-                `http://localhost:5002/api/admin/users/${userId}/status`,
+                `${API_BASE_URL}/api/admin/users/${userId}/status`,
                 { isActive: !currentStatus },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );

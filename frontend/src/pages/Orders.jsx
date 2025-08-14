@@ -4,6 +4,7 @@ import { FiPackage, FiTruck, FiCheck, FiX, FiClock, FiEye, FiRefreshCw } from 'r
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -28,7 +29,7 @@ const Orders = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get(`http://localhost:5002/api/orders?page=${page}&limit=10`, {
+            const response = await axios.get(`${API_BASE_URL}/api/orders?page=${page}&limit=10`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 const UserDebug = () => {
     const { user, isAuthenticated, refreshUserData } = useAuth();
@@ -71,7 +72,7 @@ const UserDebug = () => {
                     onClick={async () => {
                         try {
                             const token = localStorage.getItem('exotic-token');
-                            const response = await fetch('http://localhost:5002/api/auth/me', {
+                            const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
                                 headers: {
                                     'Authorization': `Bearer ${token}`
                                 }

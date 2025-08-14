@@ -3,6 +3,7 @@ import { FiShield, FiUser, FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const MakeAdmin = () => {
     const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const MakeAdmin = () => {
 
         try {
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.post('http://localhost:5002/api/make-admin', {
+            const response = await axios.post(`${API_BASE_URL}/api/make-admin`, {
                 email
             }, {
                 headers: {

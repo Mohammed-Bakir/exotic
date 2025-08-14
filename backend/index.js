@@ -14,7 +14,9 @@ const server = createServer(app);
 // Socket.IO setup
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+        origin: process.env.NODE_ENV === 'production'
+            ? ['https://exotic-3d-printing.vercel.app', 'https://exotic-3d-printing-*.vercel.app']
+            : ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     }
@@ -22,7 +24,9 @@ const io = new Server(server, {
 
 // Middleware
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+    origin: process.env.NODE_ENV === 'production'
+        ? ['https://exotic-3d-printing.vercel.app', 'https://exotic-3d-printing-*.vercel.app']
+        : ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"]
 }));
@@ -30,7 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://Mohammed:Moh-Bakir-123@mohammed-cluster.7yuqfka.mongodb.net/exotic')
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
@@ -39,9 +43,7 @@ import authRoutes from './routes/auth.js';
 import orderRoutes from './routes/orders.js';
 import adminRoutes from './routes/admin.js';
 
-// Import email service for testing
-import { emailService } from './services/emailService.js';
-import nodemailer from 'nodemailer';
+// Import models and middleware
 import User from './models/User.js';
 import adminAuth from './middleware/adminAuth.js';
 
@@ -116,8 +118,8 @@ io.on('connection', (socket) => {
 
 // Start server
 const PORT = process.env.PORT || 5002;
-server.listen(PORT, () => {
-    console.log(`🚀 Exotic API running on http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Exotic API running on port ${PORT}`);
     console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 

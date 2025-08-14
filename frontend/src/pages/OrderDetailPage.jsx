@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 function OrderDetailPage() {
     const { orderId } = useParams();
@@ -33,7 +34,7 @@ function OrderDetailPage() {
         try {
             setLoading(true);
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get(`http://localhost:5002/api/orders/${orderId}`, {
+            const response = await axios.get(`${API_BASE_URL}/api/orders/${orderId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -69,7 +70,7 @@ function OrderDetailPage() {
         try {
             setCancelling(true);
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.put(`http://localhost:5002/api/orders/${orderId}/cancel`, {}, {
+            const response = await axios.put(`${API_BASE_URL}/api/orders/${orderId}/cancel`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

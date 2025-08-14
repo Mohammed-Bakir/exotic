@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiMail, FiSend, FiCheck, FiX, FiLoader } from 'react-icons/fi';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const EmailTest = () => {
     const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ const EmailTest = () => {
 
         try {
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.post('http://localhost:5002/api/admin/test-email', {
+            const response = await axios.post(`${API_BASE_URL}/api/admin/test-email`, {
                 email,
                 type: emailType
             }, {

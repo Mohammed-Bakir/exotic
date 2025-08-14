@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const Checkout = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -128,7 +129,7 @@ const Checkout = () => {
 
             // Submit order to backend
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.post('http://localhost:5002/api/orders', orderData, {
+            const response = await axios.post(`${API_BASE_URL}/api/orders`, orderData, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

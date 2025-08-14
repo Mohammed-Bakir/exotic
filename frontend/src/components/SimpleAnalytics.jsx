@@ -4,6 +4,7 @@ import {
     FiUsers, FiTarget, FiRefreshCw
 } from 'react-icons/fi';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const SimpleAnalytics = () => {
     const [analyticsData, setAnalyticsData] = useState(null);
@@ -51,7 +52,7 @@ const SimpleAnalytics = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('exotic-token');
-            const response = await axios.get(`http://localhost:5002/api/admin/analytics?range=${timeRange}`, {
+            const response = await axios.get(`${API_BASE_URL}/api/admin/analytics?range=${timeRange}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 

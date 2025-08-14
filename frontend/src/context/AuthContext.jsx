@@ -4,8 +4,10 @@ import axios from 'axios';
 // Auth Context
 const AuthContext = createContext();
 
+import { API_BASE_URL } from '../config/api';
+
 // API base URL
-const API_URL = 'http://localhost:5002/api';
+const API_URL = `${API_BASE_URL}/api`;
 
 // Auth Provider Component
 export const AuthProvider = ({ children }) => {
