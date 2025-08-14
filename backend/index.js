@@ -42,6 +42,8 @@ mongoose.connect(process.env.MONGODB_URI)
 import authRoutes from './routes/auth.js';
 import orderRoutes from './routes/orders.js';
 import adminRoutes from './routes/admin.js';
+import paymentRoutes from './routes/payments.js';
+import uploadRoutes from './routes/uploads.js';
 
 // Import models and middleware
 import User from './models/User.js';
@@ -51,6 +53,8 @@ import adminAuth from './middleware/adminAuth.js';
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 
 
