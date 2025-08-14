@@ -1,0 +1,22 @@
+{
+    "name": "exotic-3d-printing",
+    "version": "1.0.0",
+    "description": "Exotic 3D Printing E-commerce Platform",
+    "main": "backend/index.js",
+    "scripts": {
+        "start": "cd backend && npm start",
+        "dev": "cd backend && npm run dev",
+        "install-backend": "cd backend && npm install",
+        "install-frontend": "cd frontend && npm install",
+        "postinstall": "cd backend && npm install"
+    },
+    "keywords": [
+        "ecommerce",
+        "3d-printing",
+        "marketplace",
+        "stripe",
+        "cloudinary"
+    ],
+    "author": "Exotic",
+    "license": "MIT"
+}
