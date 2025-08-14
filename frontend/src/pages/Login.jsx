@@ -396,8 +396,8 @@ const Login = () => {
                             >
                                 {isLogin ? 'Sign up' : 'Sign in'}
                             </button>
-                            <span style={{ color: '#64748b', fontSize: '14px' }}>"Demo Admin Email: admin@gmail.com" </span>
-                            <span style={{ color: '#64748b', fontSize: '14px' }}> "Demo Admin Password: 121212"</span>
+                            <div style={{ color: '#64748b', fontSize: '14px' }}>"Demo Admin Email: admin@gmail.com" </div>
+                            <div style={{ color: '#64748b', fontSize: '14px' }}> "Demo Admin Password: 121212"</div>
                         </div>
                     </form>
                 </div>
