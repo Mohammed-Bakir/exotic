@@ -1,7 +1,6 @@
 import express from 'express';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -15,18 +14,8 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure multer with Cloudinary storage
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'exotic-3d-printing',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-        transformation: [
-            { width: 1200, height: 1200, crop: 'limit' },
-            { quality: 'auto' }
-        ]
-    },
-});
+// Configure multer with memory storage
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
@@ -42,6 +31,31 @@ const upload = multer({
     }
 });
 
+// Helper function to upload buffer to Cloudinary
+const uploadToCloudinary = (buffer, options = {}) => {
+    return new Promise((resolve, reject) => {
+        const uploadOptions = {
+            folder: 'exotic-3d-printing',
+            transformation: [
+                { width: 1200, height: 1200, crop: 'limit' },
+                { quality: 'auto' }
+            ],
+            ...options
+        };
+
+        cloudinary.uploader.upload_stream(
+            uploadOptions,
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }
+        ).end(buffer);
+    });
+};
+
 // Upload single image
 router.post('/image', upload.single('image'), async (req, res) => {
     try {
@@ -52,15 +66,18 @@ router.post('/image', upload.single('image'), async (req, res) => {
             });
         }
 
+        // Upload to Cloudinary
+        const result = await uploadToCloudinary(req.file.buffer);
+
         res.json({
             success: true,
             message: 'Image uploaded successfully',
-            url: req.file.path,
-            public_id: req.file.filename,
-            format: req.file.format,
-            bytes: req.file.bytes,
-            width: req.file.width,
-            height: req.file.height
+            url: result.secure_url,
+            public_id: result.public_id,
+            format: result.format,
+            bytes: result.bytes,
+            width: result.width,
+            height: result.height
         });
 
     } catch (error) {
@@ -82,13 +99,17 @@ router.post('/images', upload.array('images', 5), async (req, res) => {
             });
         }
 
-        const uploadedImages = req.files.map(file => ({
-            url: file.path,
-            public_id: file.filename,
-            format: file.format,
-            bytes: file.bytes,
-            width: file.width,
-            height: file.height
+        // Upload all images to Cloudinary
+        const uploadPromises = req.files.map(file => uploadToCloudinary(file.buffer));
+        const results = await Promise.all(uploadPromises);
+
+        const uploadedImages = results.map(result => ({
+            url: result.secure_url,
+            public_id: result.public_id,
+            format: result.format,
+            bytes: result.bytes,
+            width: result.width,
+            height: result.height
         }));
 
         res.json({
