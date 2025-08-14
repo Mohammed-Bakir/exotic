@@ -1,8 +1,11 @@
 [build]
 builder = "nixpacks"
-buildCommand = "cd backend && npm install"
+buildCommand = "cd backend && npm ci --only=production"
 
 [deploy]
-startCommand = "cd backend && npm start"
+startCommand = "cd backend && node index.js"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
+
+[variables]
+NODE_ENV = "production"
