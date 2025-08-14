@@ -24,6 +24,7 @@ import UserDebug from './components/UserDebug';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 // import TestIntegrations from './pages/TestIntegrations';
 import './App.css';
 
@@ -54,6 +55,7 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/profile" element={<Profile />} />
                         {/* <Route path="/test" element={<TestIntegrations />} /> */}
                       </Routes>
                     </main>

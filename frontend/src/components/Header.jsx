@@ -89,9 +89,11 @@ const Header = () => {
                                     <Link to="/wishlist" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
                                         💖 Wishlist
                                     </Link>
-                                    <Link to="/admin" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
-                                        ⚙️ Admin Panel
-                                    </Link>
+                                    {user?.role === 'admin' && (
+                                        <Link to="/admin" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
+                                            ⚙️ Admin Panel
+                                        </Link>
+                                    )}
                                     <div className="dropdown-divider"></div>
                                     <button className="dropdown-item logout-item" onClick={handleLogout}>
                                         <FiLogOut /> Logout
