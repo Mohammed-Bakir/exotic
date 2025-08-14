@@ -381,8 +381,6 @@ const Login = () => {
                         <div style={{ textAlign: 'center' }}>
                             <span style={{ color: '#64748b', fontSize: '14px' }}>
                                 {isLogin ? "Don't have an account? " : "Already have an account? "}
-                                "Demo Admin Email: admin@gmail.com"
-                                "Demo Admin Password: 121212"
                             </span>
                             <button
                                 type="button"
@@ -398,6 +396,8 @@ const Login = () => {
                             >
                                 {isLogin ? 'Sign up' : 'Sign in'}
                             </button>
+                            <span style={{ color: '#64748b', fontSize: '14px' }}>"Demo Admin Email: admin@gmail.com" </span>
+                            <span style={{ color: '#64748b', fontSize: '14px' }}> "Demo Admin Password: 121212"</span>
                         </div>
                     </form>
                 </div>
