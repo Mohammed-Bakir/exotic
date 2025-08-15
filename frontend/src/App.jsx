@@ -25,6 +25,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import AddProduct from './pages/AddProduct';
 // import TestIntegrations from './pages/TestIntegrations';
 import './App.css';
 
@@ -56,6 +57,7 @@ function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/admin/add-product" element={<AddProduct />} />
                         {/* <Route path="/test" element={<TestIntegrations />} /> */}
                       </Routes>
                     </main>
