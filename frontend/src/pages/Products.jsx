@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiFilter, FiSearch, FiX, FiChevronDown, FiGrid, FiList, FiLoader } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
+import ProductListItem from '../components/ProductListItem';
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
 
@@ -558,19 +559,30 @@ const Products = () => {
                             )}
                         </div>
                     ) : (
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: viewMode === 'grid'
-                                ? 'repeat(auto-fill, minmax(280px, 1fr))'
-                                : '1fr',
-                            gap: '24px'
-                        }}>
-                            {filteredProducts.map(product => (
-                                <ProductCard
-                                    key={product._id}
-                                    product={transformProductForCard(product)}
-                                />
-                            ))}
+                        <div>
+                            {viewMode === 'grid' ? (
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                                    gap: '24px'
+                                }}>
+                                    {filteredProducts.map(product => (
+                                        <ProductCard
+                                            key={product._id}
+                                            product={transformProductForCard(product)}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                    {filteredProducts.map(product => (
+                                        <ProductListItem
+                                            key={product._id}
+                                            product={transformProductForCard(product)}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
