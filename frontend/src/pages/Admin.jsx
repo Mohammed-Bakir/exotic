@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import EmailTest from '../components/EmailTest';
 import SimpleAnalytics from '../components/SimpleAnalytics';
+import ProductsTab from '../components/admin/ProductsTab';
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
 
@@ -508,140 +509,7 @@ const Admin = () => {
 
             {/* Products Tab */}
             {activeTab === 'products' && (
-                <div>
-                    <div style={{
-                        backgroundColor: 'white',
-                        borderRadius: '12px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        border: '1px solid #e2e8f0'
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginBottom: '20px'
-                        }}>
-                            <h2 style={{ margin: 0, color: '#1e293b' }}>Product Management</h2>
-                            <a
-                                href="/admin/add-product"
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    padding: '12px 20px',
-                                    backgroundColor: '#10b981',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    borderRadius: '8px',
-                                    fontWeight: '500',
-                                    transition: 'all 0.2s ease'
-                                }}
-                                onMouseOver={(e) => e.target.style.backgroundColor = '#059669'}
-                                onMouseOut={(e) => e.target.style.backgroundColor = '#10b981'}
-                            >
-                                <FiPackage size={16} />
-                                Add New Product
-                            </a>
-                        </div>
-
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                            gap: '16px',
-                            marginBottom: '24px'
-                        }}>
-                            <div style={{
-                                padding: '20px',
-                                backgroundColor: '#f8fafc',
-                                borderRadius: '8px',
-                                textAlign: 'center'
-                            }}>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#3b82f6', fontSize: '24px' }}>
-                                    0
-                                </h3>
-                                <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-                                    Total Products
-                                </p>
-                            </div>
-
-                            <div style={{
-                                padding: '20px',
-                                backgroundColor: '#f8fafc',
-                                borderRadius: '8px',
-                                textAlign: 'center'
-                            }}>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#10b981', fontSize: '24px' }}>
-                                    0
-                                </h3>
-                                <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-                                    Active Products
-                                </p>
-                            </div>
-
-                            <div style={{
-                                padding: '20px',
-                                backgroundColor: '#f8fafc',
-                                borderRadius: '8px',
-                                textAlign: 'center'
-                            }}>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#f59e0b', fontSize: '24px' }}>
-                                    0
-                                </h3>
-                                <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-                                    Draft Products
-                                </p>
-                            </div>
-
-                            <div style={{
-                                padding: '20px',
-                                backgroundColor: '#f8fafc',
-                                borderRadius: '8px',
-                                textAlign: 'center'
-                            }}>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#ef4444', fontSize: '24px' }}>
-                                    0
-                                </h3>
-                                <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
-                                    Low Stock
-                                </p>
-                            </div>
-                        </div>
-
-                        <div style={{
-                            padding: '20px',
-                            backgroundColor: '#f8fafc',
-                            borderRadius: '8px',
-                            textAlign: 'center'
-                        }}>
-                            <FiPackage size={48} style={{ color: '#94a3b8', marginBottom: '16px' }} />
-                            <h3 style={{ margin: '0 0 8px 0', color: '#64748b' }}>
-                                No Products Yet
-                            </h3>
-                            <p style={{ margin: '0 0 16px 0', color: '#94a3b8' }}>
-                                Start by adding your first 3D printed product to the store.
-                            </p>
-                            <a
-                                href="/admin/add-product"
-                                style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    padding: '10px 16px',
-                                    backgroundColor: '#3b82f6',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    borderRadius: '6px',
-                                    fontSize: '14px',
-                                    fontWeight: '500'
-                                }}
-                            >
-                                <FiPackage size={14} />
-                                Add Your First Product
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <ProductsTab />
             )}
 
             {/* Analytics Tab */}

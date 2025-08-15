@@ -1,179 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import { FiFilter, FiSearch, FiX, FiChevronDown, FiGrid, FiList } from 'react-icons/fi';
+import { FiFilter, FiSearch, FiX, FiChevronDown, FiGrid, FiList, FiLoader } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
-
-// Sample data - would come from API in real app
-const allProducts = [
-    {
-        _id: '1',
-        title: 'Geometric Desk Organizer',
-        description: 'Keep your workspace tidy with this modern geometric desk organizer. Perfect for storing pens, pencils, and small office supplies.',
-        price: 24.99,
-        images: ['https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PLA',
-        dimensions: '15 x 10 x 8 cm',
-        printTime: 4,
-        category: 'home-decor',
-        colors: ['Black', 'White', 'Gray'],
-        rating: 4.5,
-        reviews: 23,
-        createdAt: '2024-01-15'
-    },
-    {
-        _id: '2',
-        title: 'Honeycomb Wall Planter',
-        description: 'Modern hexagonal wall planter perfect for small succulents and air plants. Comes with mounting hardware.',
-        price: 19.99,
-        images: ['https://images.unsplash.com/photo-1545241047-6083a3684587?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PETG',
-        dimensions: '12 x 12 x 5 cm',
-        printTime: 3,
-        category: 'home-decor',
-        colors: ['Green', 'White', 'Terracotta'],
-        rating: 4.8,
-        reviews: 45,
-        createdAt: '2024-02-01'
-    },
-    {
-        _id: '3',
-        title: 'Mechanical Phone Stand',
-        description: 'Articulated phone stand with adjustable viewing angles. Great for watching videos or video calls.',
-        price: 15.99,
-        images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PLA',
-        dimensions: '10 x 8 x 15 cm',
-        printTime: 5,
-        category: 'gadgets',
-        colors: ['Black', 'Blue', 'Red'],
-        rating: 4.3,
-        reviews: 67,
-        createdAt: '2024-01-20'
-    },
-    {
-        _id: '4',
-        title: 'Low-Poly Vase',
-        description: 'Modern low-poly vase perfect for flowers or as a standalone decorative piece.',
-        price: 29.99,
-        images: ['https://images.unsplash.com/photo-1602748828300-2843df3b3923?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PLA',
-        dimensions: '15 x 15 x 20 cm',
-        printTime: 8,
-        category: 'home-decor',
-        colors: ['White', 'Gold', 'Silver'],
-        rating: 4.7,
-        reviews: 34,
-        createdAt: '2024-01-10'
-    },
-    {
-        _id: '5',
-        title: 'Cable Organizer',
-        description: 'Keep your cables neat and tangle-free with this sleek cable management solution.',
-        price: 12.99,
-        images: ['https://images.unsplash.com/photo-1572635148818-ef6fd45eb394?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PLA',
-        dimensions: '8 x 5 x 2 cm',
-        printTime: 2,
-        category: 'gadgets',
-        colors: ['Black', 'White'],
-        rating: 4.2,
-        reviews: 89,
-        createdAt: '2024-02-10'
-    },
-    {
-        _id: '6',
-        title: 'Minimalist Lamp Shade',
-        description: 'Elegant minimalist lamp shade that creates beautiful ambient lighting patterns.',
-        price: 34.99,
-        images: ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PETG',
-        dimensions: '20 x 20 x 25 cm',
-        printTime: 12,
-        category: 'home-decor',
-        colors: ['White', 'Cream', 'Gray'],
-        rating: 4.6,
-        reviews: 28,
-        createdAt: '2024-01-25'
-    },
-    {
-        _id: '7',
-        title: 'Wireless Charging Stand',
-        description: 'Sleek wireless charging stand compatible with most smartphones. Includes cable management.',
-        price: 22.99,
-        images: ['https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'ABS',
-        dimensions: '12 x 8 x 10 cm',
-        printTime: 6,
-        category: 'gadgets',
-        colors: ['Black', 'White', 'Blue'],
-        rating: 4.4,
-        reviews: 56,
-        createdAt: '2024-02-05'
-    },
-    {
-        _id: '8',
-        title: 'Succulent Pot Set',
-        description: 'Set of 3 modern geometric succulent pots with drainage holes. Perfect for small plants.',
-        price: 18.99,
-        images: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'],
-        materials: 'PLA',
-        dimensions: '8 x 8 x 6 cm each',
-        printTime: 9,
-        category: 'home-decor',
-        colors: ['Terracotta', 'White', 'Green'],
-        rating: 4.9,
-        reviews: 78,
-        createdAt: '2024-01-30'
-    }
-];
-
-const categories = [
-    { id: 'all', name: 'All Products', count: allProducts.length },
-    { id: 'home-decor', name: 'Home Decor', count: allProducts.filter(p => p.category === 'home-decor').length },
-    { id: 'gadgets', name: 'Gadgets', count: allProducts.filter(p => p.category === 'gadgets').length },
-    { id: 'accessories', name: 'Accessories', count: 0 },
-    { id: 'custom', name: 'Custom Orders', count: 0 }
-];
-
-const materials = ['PLA', 'PETG', 'ABS', 'TPU'];
-const colors = ['Black', 'White', 'Gray', 'Blue', 'Red', 'Green', 'Gold', 'Silver', 'Terracotta', 'Cream'];
-
-const sortOptions = [
-    { value: 'newest', label: 'Newest First' },
-    { value: 'oldest', label: 'Oldest First' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'name-az', label: 'Name: A to Z' },
-    { value: 'name-za', label: 'Name: Z to A' },
-    { value: 'rating', label: 'Highest Rated' },
-    { value: 'popular', label: 'Most Popular' }
-];
+import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const Products = () => {
-    const [products, setProducts] = useState(allProducts);
-    const [filteredProducts, setFilteredProducts] = useState(allProducts);
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Filter states
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedMaterials, setSelectedMaterials] = useState([]);
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [priceRange, setPriceRange] = useState([0, 100]);
+    const [priceRange, setPriceRange] = useState([0, 200]);
     const [sortBy, setSortBy] = useState('newest');
 
     // UI states
     const [showFilters, setShowFilters] = useState(false);
-    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+    const [viewMode, setViewMode] = useState('grid');
 
-    // Apply all filters and sorting
+    const categories = [
+        { id: 'all', name: 'All Products' },
+        { id: 'miniatures', name: 'Miniatures' },
+        { id: 'decorative', name: 'Decorative Items' },
+        { id: 'functional', name: 'Functional Items' },
+        { id: 'jewelry', name: 'Jewelry' },
+        { id: 'toys', name: 'Toys & Games' },
+        { id: 'prototypes', name: 'Prototypes' },
+        { id: 'art', name: 'Art & Sculptures' },
+        { id: 'custom', name: 'Custom Orders' }
+    ];
+
+    const materials = ['PLA', 'ABS', 'PETG', 'TPU', 'Resin', 'Wood Fill', 'Metal Fill', 'Custom'];
+
+    const sortOptions = [
+        { value: 'newest', label: 'Newest First' },
+        { value: 'oldest', label: 'Oldest First' },
+        { value: 'price-low', label: 'Price: Low to High' },
+        { value: 'price-high', label: 'Price: High to Low' },
+        { value: 'name-az', label: 'Name: A to Z' },
+        { value: 'name-za', label: 'Name: Z to A' }
+    ];
+
+    // Fetch products from API
     useEffect(() => {
-        let filtered = [...allProducts];
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get(`${API_BASE_URL}/api/products`);
+
+                if (response.data.success) {
+                    setProducts(response.data.products);
+                    setFilteredProducts(response.data.products);
+                } else {
+                    setError('Failed to load products');
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                setError('Failed to load products. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Apply filters and sorting
+    useEffect(() => {
+        let filtered = [...products];
 
         // Search filter
         if (searchTerm) {
             filtered = filtered.filter(product =>
-                product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                product.materials.toLowerCase().includes(searchTerm.toLowerCase())
+                product.printingDetails?.material.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
 
@@ -185,14 +89,7 @@ const Products = () => {
         // Materials filter
         if (selectedMaterials.length > 0) {
             filtered = filtered.filter(product =>
-                selectedMaterials.includes(product.materials)
-            );
-        }
-
-        // Colors filter
-        if (selectedColors.length > 0) {
-            filtered = filtered.filter(product =>
-                product.colors.some(color => selectedColors.includes(color))
+                selectedMaterials.includes(product.printingDetails?.material)
             );
         }
 
@@ -213,20 +110,16 @@ const Products = () => {
                 case 'price-high':
                     return b.price - a.price;
                 case 'name-az':
-                    return a.title.localeCompare(b.title);
+                    return a.name.localeCompare(b.name);
                 case 'name-za':
-                    return b.title.localeCompare(a.title);
-                case 'rating':
-                    return b.rating - a.rating;
-                case 'popular':
-                    return b.reviews - a.reviews;
+                    return b.name.localeCompare(a.name);
                 default:
                     return 0;
             }
         });
 
         setFilteredProducts(filtered);
-    }, [searchTerm, selectedCategory, selectedMaterials, selectedColors, priceRange, sortBy]);
+    }, [products, searchTerm, selectedCategory, selectedMaterials, priceRange, sortBy]);
 
     // Handle material filter toggle
     const toggleMaterial = (material) => {
@@ -237,29 +130,89 @@ const Products = () => {
         );
     };
 
-    // Handle color filter toggle
-    const toggleColor = (color) => {
-        setSelectedColors(prev =>
-            prev.includes(color)
-                ? prev.filter(c => c !== color)
-                : [...prev, color]
-        );
-    };
-
     // Clear all filters
     const clearAllFilters = () => {
         setSearchTerm('');
         setSelectedCategory('all');
         setSelectedMaterials([]);
-        setSelectedColors([]);
-        setPriceRange([0, 100]);
+        setPriceRange([0, 200]);
         setSortBy('newest');
     };
 
     // Check if any filters are active
     const hasActiveFilters = searchTerm || selectedCategory !== 'all' ||
-        selectedMaterials.length > 0 || selectedColors.length > 0 ||
-        priceRange[0] > 0 || priceRange[1] < 100;
+        selectedMaterials.length > 0 || priceRange[0] > 0 || priceRange[1] < 200;
+
+    // Transform product data for ProductCard component
+    const transformProductForCard = (product) => ({
+        _id: product._id,
+        title: product.name,
+        description: product.shortDescription || product.description,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        images: product.images?.length > 0 ? [product.images[0].url] : [],
+        materials: product.printingDetails?.material || 'PLA',
+        dimensions: product.specifications?.dimensions ?
+            `${product.specifications.dimensions.length || 0} x ${product.specifications.dimensions.width || 0} x ${product.specifications.dimensions.height || 0} cm` :
+            'N/A',
+        printTime: product.printingDetails?.printTime || 'N/A',
+        category: product.category,
+        colors: product.specifications?.colors?.map(c => c.name) || [],
+        rating: product.rating?.average || 0,
+        reviews: product.rating?.count || 0,
+        createdAt: product.createdAt,
+        featured: product.featured,
+        inStock: product.inventory?.inStock || false
+    });
+
+    if (loading) {
+        return (
+            <div style={{
+                minHeight: '60vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '16px'
+            }}>
+                <FiLoader size={48} style={{ color: '#3b82f6', animation: 'spin 1s linear infinite' }} />
+                <p style={{ color: '#64748b', fontSize: '18px' }}>Loading products...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div style={{
+                minHeight: '60vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '16px',
+                textAlign: 'center'
+            }}>
+                <div style={{ fontSize: '48px' }}>😕</div>
+                <h2 style={{ color: '#ef4444', margin: 0 }}>Oops! Something went wrong</h2>
+                <p style={{ color: '#64748b', margin: 0 }}>{error}</p>
+                <button
+                    onClick={() => window.location.reload()}
+                    style={{
+                        padding: '12px 24px',
+                        backgroundColor: '#3b82f6',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        fontWeight: '500'
+                    }}
+                >
+                    Try Again
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 20px' }}>
@@ -296,7 +249,8 @@ const Products = () => {
                             border: '1px solid #e2e8f0',
                             borderRadius: '8px',
                             fontSize: '16px',
-                            outline: 'none'
+                            outline: 'none',
+                            boxSizing: 'border-box'
                         }}
                     />
                     <FiSearch style={{
@@ -444,7 +398,7 @@ const Products = () => {
                             alignItems: 'center',
                             marginBottom: '24px'
                         }}>
-                            <h3 style={{ fontSize: '18px', fontWeight: '600' }}>Filters</h3>
+                            <h3 style={{ fontSize: '18px', fontWeight: '600', margin: 0 }}>Filters</h3>
                             {hasActiveFilters && (
                                 <button
                                     onClick={clearAllFilters}
@@ -485,15 +439,6 @@ const Products = () => {
                                         }}
                                     >
                                         <span>{category.name}</span>
-                                        <span style={{
-                                            fontSize: '12px',
-                                            color: '#64748b',
-                                            backgroundColor: '#f1f5f9',
-                                            padding: '2px 6px',
-                                            borderRadius: '10px'
-                                        }}>
-                                            {category.count}
-                                        </span>
                                     </button>
                                 ))}
                             </div>
@@ -506,7 +451,7 @@ const Products = () => {
                                 <input
                                     type="range"
                                     min="0"
-                                    max="100"
+                                    max="200"
                                     value={priceRange[1]}
                                     onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
                                     style={{ width: '100%', marginBottom: '8px' }}
@@ -524,7 +469,7 @@ const Products = () => {
                         </div>
 
                         {/* Materials */}
-                        <div style={{ marginBottom: '24px' }}>
+                        <div>
                             <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Materials</h4>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 {materials.map(material => (
@@ -546,35 +491,6 @@ const Products = () => {
                                         />
                                         {material}
                                     </label>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Colors */}
-                        <div>
-                            <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>Colors</h4>
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(3, 1fr)',
-                                gap: '8px'
-                            }}>
-                                {colors.map(color => (
-                                    <button
-                                        key={color}
-                                        onClick={() => toggleColor(color)}
-                                        style={{
-                                            padding: '6px 8px',
-                                            border: selectedColors.includes(color) ? '2px solid #2563eb' : '1px solid #e2e8f0',
-                                            borderRadius: '6px',
-                                            backgroundColor: selectedColors.includes(color) ? '#f0f9ff' : 'white',
-                                            color: selectedColors.includes(color) ? '#2563eb' : '#475569',
-                                            cursor: 'pointer',
-                                            fontSize: '12px',
-                                            fontWeight: selectedColors.includes(color) ? '600' : '400'
-                                        }}
-                                    >
-                                        {color}
-                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -602,91 +518,42 @@ const Products = () => {
                                 </span>
                             )}
                         </div>
-
-                        {hasActiveFilters && (
-                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                                {searchTerm && (
-                                    <span style={{
-                                        padding: '4px 8px',
-                                        backgroundColor: '#f1f5f9',
-                                        borderRadius: '12px',
-                                        fontSize: '12px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '4px'
-                                    }}>
-                                        Search: {searchTerm}
-                                        <button
-                                            onClick={() => setSearchTerm('')}
-                                            style={{
-                                                background: 'none',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                color: '#64748b'
-                                            }}
-                                        >
-                                            <FiX size={12} />
-                                        </button>
-                                    </span>
-                                )}
-                                {selectedCategory !== 'all' && (
-                                    <span style={{
-                                        padding: '4px 8px',
-                                        backgroundColor: '#f1f5f9',
-                                        borderRadius: '12px',
-                                        fontSize: '12px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '4px'
-                                    }}>
-                                        {categories.find(c => c.id === selectedCategory)?.name}
-                                        <button
-                                            onClick={() => setSelectedCategory('all')}
-                                            style={{
-                                                background: 'none',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                color: '#64748b'
-                                            }}
-                                        >
-                                            <FiX size={12} />
-                                        </button>
-                                    </span>
-                                )}
-                            </div>
-                        )}
                     </div>
 
                     {/* Products Display */}
                     {filteredProducts.length === 0 ? (
                         <div style={{
                             textAlign: 'center',
-                            padding: '80px 20px',
-                            backgroundColor: '#f8fafc',
+                            padding: '60px 20px',
+                            backgroundColor: 'white',
                             borderRadius: '12px',
-                            border: '2px dashed #e2e8f0'
+                            border: '1px solid #e2e8f0'
                         }}>
-                            <FiSearch style={{ fontSize: '64px', color: '#cbd5e1', marginBottom: '16px' }} />
-                            <h3 style={{ fontSize: '20px', marginBottom: '8px', color: '#475569' }}>
-                                No products found
+                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
+                            <h3 style={{ color: '#64748b', margin: '0 0 8px 0' }}>
+                                {products.length === 0 ? 'No products available yet' : 'No products found'}
                             </h3>
-                            <p style={{ color: '#64748b', marginBottom: '24px' }}>
-                                Try adjusting your filters or search term to find what you're looking for.
+                            <p style={{ color: '#94a3b8', margin: 0 }}>
+                                {products.length === 0
+                                    ? 'Check back soon for amazing 3D printed products!'
+                                    : 'Try adjusting your filters or search terms'
+                                }
                             </p>
                             {hasActiveFilters && (
                                 <button
                                     onClick={clearAllFilters}
                                     style={{
-                                        padding: '12px 24px',
-                                        backgroundColor: '#2563eb',
+                                        marginTop: '16px',
+                                        padding: '8px 16px',
+                                        backgroundColor: '#3b82f6',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '6px',
                                         cursor: 'pointer',
-                                        fontWeight: '500'
+                                        fontSize: '14px'
                                     }}
                                 >
-                                    Clear All Filters
+                                    Clear Filters
                                 </button>
                             )}
                         </div>
@@ -696,19 +563,25 @@ const Products = () => {
                             gridTemplateColumns: viewMode === 'grid'
                                 ? 'repeat(auto-fill, minmax(280px, 1fr))'
                                 : '1fr',
-                            gap: viewMode === 'grid' ? '24px' : '16px'
+                            gap: '24px'
                         }}>
                             {filteredProducts.map(product => (
                                 <ProductCard
                                     key={product._id}
-                                    product={product}
-                                    viewMode={viewMode}
+                                    product={transformProductForCard(product)}
                                 />
                             ))}
                         </div>
                     )}
                 </div>
             </div>
+
+            <style jsx>{`
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 };
