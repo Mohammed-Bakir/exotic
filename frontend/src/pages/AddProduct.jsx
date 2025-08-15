@@ -119,6 +119,7 @@ const AddProduct = () => {
                 const response = await axios.post(`${API_BASE_URL}/api/uploads/image`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${localStorage.getItem('exotic-token')}`
                     },
                 });
 
@@ -140,7 +141,24 @@ const AddProduct = () => {
             showSuccess(`${uploadedImages.length} image(s) uploaded successfully!`);
         } catch (error) {
             console.error('Image upload error:', error);
-            showError('Failed to upload images');
+
+            // Better error handling
+            let errorMessage = 'Failed to upload images';
+            if (error.response) {
+                // Server responded with error status
+                errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
+                console.error('Server response:', error.response.data);
+            } else if (error.request) {
+                // Request was made but no response received
+                errorMessage = 'No response from server. Check your connection.';
+                console.error('No response received:', error.request);
+            } else {
+                // Something else happened
+                errorMessage = error.message || 'Unknown error occurred';
+                console.error('Error details:', error.message);
+            }
+
+            showError(errorMessage);
         }
         setUploadingImages(false);
     };
